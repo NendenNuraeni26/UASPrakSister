@@ -85,13 +85,10 @@ include "Client.php";
                                     <?= $r->id ?>
                                 </td>
                                 <td>
-                                    <?= $r->title ?>
+                                    <?= $r->name ?>
                                 </td>
                                 <td>
-                                    <img style="width: 100px;height: 100px;" src="<?= $r->imageUrl ?>" alt="">
-                                </td>
-                                <td>
-                                    <?= $r->description ?>
+                                    <?= $r->status ?>
                                 </td>
                                 <td><a href="?page=ubah&id=<?= $r->id ?>">Ubah</a></td>
                                 <td><a href="prosessupplier.php?aksi=hapus&id=<?= $r->id ?>" onclick="return confirm('Apakah Anda ingin menghapus data ini?')">Hapus</a></td>
