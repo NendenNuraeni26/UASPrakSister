@@ -159,6 +159,10 @@ include "Client.php";
                                             <input type="text" class="form-control" name="category" value="<?= $r->category ?>" placeholder="Masukkan Kategori Barang">
                                         </div>
                                         <div class="form-group">
+                                            <label for="product tag">Product tag</label>
+                                            <input type="text" class="form-control" name="product_tag" value="<?= $r->product_tag ?>" placeholder="Masukkan Product tag Barang">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="supplier">Supplier</label>
                                             <input type="text" class="form-control" name="supplier" value="<?= $r->supplier ?>" placeholder="Masukkan Supplier Barang">
                                         </div>
@@ -167,8 +171,16 @@ include "Client.php";
                                             <input type="text" class="form-control" name="title" value="<?= $r->title ?>" placeholder="Masukkan Judul">
                                         </div>
                                         <div class="form-group">
+                                            <label for="stock">Stock</label>
+                                            <input type="text" class="form-control" name="stock" value="<?= $r->stock ?>" placeholder="Masukkan Stok">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="text" class="form-control" name="price" value="<?= $r->stock ?>" placeholder="Masukkan Stok">
+                                            <input type="text" class="form-control" name="price" value="<?= $r->price ?>" placeholder="Masukkan Stok">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <input type="text" class="form-control" name="description" value="<?= $r->description ?>" placeholder="Masukkan Stok">
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="simpan">Update</button>
                                     </form>

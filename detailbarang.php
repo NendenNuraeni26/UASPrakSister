@@ -66,18 +66,29 @@ include "Client.php";
                     </div>
                 </div>
             </div>
-            <?php
-            include "Layout/navbar.php";
-            ?>
-        </header>
+    </div>
+    </nav>
 
-        <div class="bg-light py-3">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Contact</strong></div>
+
+    <br>
+    <div class="container mt-4">
+        <?php if (basename($_SERVER['PHP_SELF']) == 'detailbarang.php' && !isset($_GET['page'])) : ?>
+            <div class="row">
+                <div class="col-md-7">
+                    <h3 style="font-family: 'Arial', sans-serif; font-weight: bold; text-align: start;">Selamat Datang di Halaman Detail Barang</h3>
+                    <img src="Assets/AddBook3.jpg" height="350">
+                </div>
+
+                <div class="col-md-5">
+                    <br>
+                    <p>"Selamat datang di Halaman Detail Barang. Di sini, Anda memiliki kemampuan untuk menambahkan data dengan mudah. Anda hanya perlu memasukkan informasi seperti nama, URL gambar, detail, dan status. Tidak hanya itu, Anda juga dapat melihat data yang telah Anda masukkan di bagian Data Server. Dengan demikian, pengalaman pengguna menjadi lebih interaktif dan informatif, memungkinkan Anda untuk mengelola dan melihat data secara efektif."</p>
+                    <p>Dengan penyajian data yang jelas dan terstruktur, pengguna dapat dengan mudah mengelola dan melihat informasi terkait barang. Hal ini menjadikan Halaman Detail Barang sebagai pusat kontrol yang efektif, memastikan bahwa pengguna dapat berinteraksi dengan data mereka tanpa kesulitan.</p>
                 </div>
             </div>
-        </div>
+
+
+
+        <?php endif; ?>
 
 
         <div class="container mt-4">
@@ -94,9 +105,9 @@ include "Client.php";
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">Tambah Data</h5>
-                                    <form name="form" method="POST" action="prosesdetailbarang.php">
+                                    <form name="form" method="post" action="prosesdetailbarang.php">
                                         <div class="form-group">
-                                            <input type="hidden" name="aksi" value="tambahdetailbarang" />
+                                            <input type="hidden" name="aksi" value="tambah" />
                                             <label for="name">Name</label>
                                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama Buku">
                                         </div>
@@ -121,7 +132,7 @@ include "Client.php";
 
                 <?php elseif ($_GET['page'] == 'ubah') :
                     $id = $_GET['id'];
-                    $r = $abc->tampil_semua_data_detail_barang($id);
+                    $r = $abc->tampil_data_detail_produk($id);
                 ?>
                     <div class="row justify-content-center">
                         <div class="col-md-6">
@@ -133,7 +144,7 @@ include "Client.php";
                                             <input type="hidden" name="aksi" value="ubah" />
                                             <input type="hidden" name="id" value="<?= $r->id ?>" />
                                             <label for="name">Id Detail Barang</label>
-                                            <input type="text" class="form-control" name="name" value="<?= $r->id ?>" readonly placeholder="Masukkan Id Barang">
+                                            <input type="text" class="form-control" name="id" value="<?= $r->id ?>" readonly placeholder="Masukkan Id Barang">
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Name</label>
@@ -145,7 +156,7 @@ include "Client.php";
                                         </div>
                                         <div class="form-group">
                                             <label for="detail">Detail</label>
-                                            <input type="text" class="form-control" name="detail" placeholder="Masukan Detail Barang ">
+                                            <input type="text" class="form-control" name="detail" value="<?= $r->detail ?>" placeholder="Masukan Detail Barang ">
                                         </div>
                                         <div class="form-group">
                                             <label for="status">Status</label>

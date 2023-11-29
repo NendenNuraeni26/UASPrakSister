@@ -18,7 +18,7 @@ class Client
         return $data;
         unset($data);
     }
-
+    
     // ============================ TAMPIL SEMUA DATA =============================================
 
     public function tampil_semua_data_categories()
@@ -58,7 +58,7 @@ class Client
     }
     public function tampil_semua_data_supplier()
     {
-        $client = curl_init($this->url . "supplier");
+        $client = curl_init($this->url . "suppliers");
         curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($client);
         curl_close($client);
@@ -119,6 +119,18 @@ class Client
 
         unset($id, $client, $response, $data);
     }
+    public function tampil_data_supplier($id)
+    {
+        $id = $this->filter($id);
+        $client = curl_init($this->url . "suppliers/" . $id . "/?format=json");
+        curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($client);
+        curl_close($client);
+        $data = json_decode($response);
+        return $data;
+
+        unset($id, $client, $response, $data);
+    }
     // ===========================================================================================
 
     // ============================ TAMBAH DATA ==================================================
@@ -147,7 +159,6 @@ class Client
     {
         $date = date('Y-m-d H:i:s');
         $data = [
-            "id" => $data['id'],
             "name" => $data['name'],
             "imageUrl" => $data['imageUrl'],
             "detail" => $data['detail'],
@@ -155,15 +166,15 @@ class Client
             "date_updated" => $date,
             "date_created" => $date,
         ];
-
-        $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, $this->url . "products");
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($c, CURLOPT_POST, true);
-        curl_setopt($c, CURLOPT_POSTFIELDS, $data);
-        $response = curl_exec($c);
-        curl_close($c);
-        unset($data, $c, $response);
+        print_r($data);
+        // $c = curl_init();
+        // curl_setopt($c, CURLOPT_URL, $this->url . "products");
+        // curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($c, CURLOPT_POST, true);
+        // curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+        // $response = curl_exec($c);
+        // curl_close($c);
+        // unset($data, $c, $response);
     }
 
     public function tambah_data_produk($data)
@@ -222,27 +233,29 @@ class Client
             "status" => $data['status'],
             "date_updated" => $date,
         ];
-        $c = curl_init($this->url . "detail-barangs/" . $data['id'] . "/");
+        // print_r($data);
+        $c = curl_init($this->url . "detail-barangs/" . $data['id']. "/");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($data));
         $response = curl_exec($c);
         curl_close($c);
         unset($data, $c, $response);
-        // You can unset variables here or later as needed.
     }
 
     public function ubah_data_produk($data)
     {
         $data = [
             "id" => $data['id'],
-            "category_id" => $data['category_id'],
-            "detail_barang_id" => $data['detail_barang_id'],
+            "category" => $data['category'],
+            "detail_barang" => $data['detail_barang'],
             "product_tag" => $data['product_tag'],
             "title" => $data['title'],
             "price" => $data['price'],
             "description" => $data['description'],
+            "supplier" => $data['supplier'],
         ];
+        print_r($data);
         $c = curl_init($this->url . "products/" . $data['id'] . "/");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'PUT');
@@ -307,7 +320,7 @@ class Client
 
 $abc = new Client($url);
 // echo "babi";
-// print_r($abc->tampil_semua_data_detail_barang());
+// print_r($abc->tampil_semua_data_supplier());
 // print_r($abc->tampil_data_categories(1));
 // $p=$abc->tampil_data_categories(1);
 // print_r($p);
