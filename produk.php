@@ -1,5 +1,4 @@
 <?php
-include "Layout/header.php";
 include "Client.php";
 ?>
 
@@ -7,69 +6,79 @@ include "Client.php";
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barang</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
-        body {
-            padding-top: 56px;
-        }
+    <title>Toko Buku &mdash; Colorlib e-Commerce Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        @media (max-width: 767px) {
-            body {
-                padding-top: 0;
-            }
-        }
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
 
-        .navbar {
-            margin-bottom: 20px;
-        }
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
 
-        .card-title {
-            margin-bottom: 1.25rem;
-        }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg bg-primary fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">Back</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" href="?page=home">Home Produk</a>
-                    <a class="nav-link active" href="?page=tambah">Tambah Data</a>
-                    <a class="nav-link active" href="?page=daftar-data">Data Server</a>
+
+    <div class="site-wrap">
+        <header class="site-navbar" role="banner">
+            <div class="site-navbar-top">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+                            <form action="" class="site-block-top-search">
+                                <span class="icon icon-search2"></span>
+                                <input type="text" class="form-control border-0" placeholder="Search">
+                            </form>
+                        </div>
+
+                        <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+                            <div class="site-logo">
+                                <a href="index.html" class="js-logo-clone">Toko Buku</a>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+                            <div class="site-top-icons">
+                                <ul>
+                                    <li><a href="#"><span class="icon icon-person"></span></a></li>
+                                    <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
+                                    <li>
+                                        <a href="cart.html" class="site-cart">
+                                            <span class="icon icon-shopping_cart"></span>
+                                            <span class="count">2</span>
+                                        </a>
+                                    </li>
+                                    <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <?php
+            include "Layout/navbar.php";
+            ?>
+        </header>
+
+        <div class="bg-light py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Contact</strong></div>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <br>
-    <div class="container mt-4">
-        <?php if (basename($_SERVER['PHP_SELF']) == 'produk.php' && !isset($_GET['page'])) : ?>
-            <div class="row">
-                <div class="col-md-6">
-                    <h3 style="font-family: 'Arial', sans-serif; font-weight: bold; text-align: start;">Selamat Datang di Halaman Produk Barang</h3>
-                    <img src="Assets/AddBook6.png" height="400">
-                </div>
-
-                <div class="col-md-6">
-                    <p>Selamat datang di Halaman Produk! Di sini, Anda memiliki kebebasan untuk mengelola produk-produk Anda dengan lebih efisien. Proses penambahan produk menjadi lebih sederhana karena Anda dapat mengisi rincian seperti Detail Buku, Kategori Buku, Supplier Buku, Product Tag, Judul, Harga, dan Stok dengan cepat dan mudah. Dengan antarmuka yang intuitif, pengguna dapat menjelajahi fitur-fitur yang tersedia untuk memastikan setiap produk terdaftar dengan lengkap dan akurat.</p>
-                    <p>Lebih dari sekadar menambahkan produk, Halaman Produk juga memberikan Anda keunggulan untuk melacak stok, harga, dan detail terkait lainnya. Dengan demikian, memastikan bahwa data produk Anda tetap terorganisir dan dapat diakses dengan cepat. Dengan fitur-fitur ini, pengalaman pengelolaan produk menjadi lebih interaktif, membantu Anda mengoptimalkan efisiensi dan pemahaman terhadap setiap item dalam inventaris Anda.</p>
-                </div>
-            </div>
-
-
-        <?php endif; ?>
 
         <div class="container mt-4">
             <?php
@@ -229,8 +238,17 @@ include "Client.php";
             }
             ?>
         </div>
-        <?php include "Layout/footer.php"; ?>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </div>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/aos.js"></script>
+
+    <script src="js/main.js"></script>
 
 </body>
 
