@@ -38,7 +38,7 @@ include "Client.php";
                 <?php
                 } elseif ($_GET['page'] == 'ubah') {
                     $id = $_GET['id'];
-                    $r = $abc->tampil_data_supplier($id);
+                    $r = $abc->tampil_semua_data_supplier($id);
                 ?>
                     <legend>Ubah Data</legend>
                     <form name="form" method="post" action="prosessupplier.php">
@@ -86,9 +86,6 @@ include "Client.php";
                                 </td>
                                 <td>
                                     <?= $r->name ?>
-                                </td>
-                                <td>
-                                    <?= $r->detail ?>
                                 </td>
                                 <td>
                                     <?= $r->status ?>

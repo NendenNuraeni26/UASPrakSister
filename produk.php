@@ -6,7 +6,7 @@ include "Client.php";
 <html lang="en">
 
 <head>
-    <title>Toko Buku &mdash; Colorlib e-Commerce Template</title>
+    <title>Book Heaven &mdash; Colorlib e-Commerce Template</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -43,7 +43,7 @@ include "Client.php";
 
                         <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
                             <div class="site-logo">
-                                <a href="index.html" class="js-logo-clone">Toko Buku</a>
+                                <a href="index.html" class="js-logo-clone">Book Heaven</a>
                             </div>
                         </div>
 
@@ -87,10 +87,14 @@ include "Client.php";
             ?>
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="card-title text-start mb-4">Selamat Datang Di Toko Buku</h3>
+                            <h3 class="card-title text-start mb-4">Selamat Datang Di Book Heaven</h3>
                             <img src="Assets/AddBook7.png" height="300">
-                            <p class="card-text">Silahkan Masukkan Produk Anda. Silahkan memasukkan produk, Anda dapat memberikan informasi yang lengkap seperti Detail Buku, Kategori Buku, Supplier Buku, Product Tag, Judul, Harga, dan Stok. </p>
+                            <p class="card-text">
+                                Silahkan masukkan produk Anda ke dalam sistem dengan memasukkan informasi yang lengkap. Berikan detail yang komprehensif, seperti detail buku, kategori buku, supplier buku, tag produk, judul, harga, dan stok. Dengan melengkapi semua informasi ini, Anda membantu memastikan bahwa produk Anda dapat dengan mudah diidentifikasi dan ditemukan oleh pelanggan potensial. Informasi yang lengkap juga dapat meningkatkan kredibilitas dan daya tarik produk di dalam platform. </p>
+
+                            <p class="card-text">Proses memasukkan produk tidak hanya memungkinkan untuk memperlihatkan berbagai fitur dan spesifikasi, tetapi juga memberikan peluang bagi Anda untuk menonjolkan keunikan dan keunggulan produk Anda. Pastikan untuk memberikan informasi yang akurat dan terperinci agar calon pembeli dapat membuat keputusan yang informatif. Dengan memberikan data yang lengkap, Anda tidak hanya memberikan nilai tambah pada pengalaman belanja online, tetapi juga meningkatkan peluang produk Anda untuk sukses di pasaran.</p>
                         </div>
+
 
                         <div class="col-md-6">
                             <div class="card">
@@ -159,10 +163,6 @@ include "Client.php";
                                             <input type="text" class="form-control" name="category" value="<?= $r->category ?>" placeholder="Masukkan Kategori Barang">
                                         </div>
                                         <div class="form-group">
-                                            <label for="product tag">Product tag</label>
-                                            <input type="text" class="form-control" name="product_tag" value="<?= $r->product_tag ?>" placeholder="Masukkan Product tag Barang">
-                                        </div>
-                                        <div class="form-group">
                                             <label for="supplier">Supplier</label>
                                             <input type="text" class="form-control" name="supplier" value="<?= $r->supplier ?>" placeholder="Masukkan Supplier Barang">
                                         </div>
@@ -171,16 +171,8 @@ include "Client.php";
                                             <input type="text" class="form-control" name="title" value="<?= $r->title ?>" placeholder="Masukkan Judul">
                                         </div>
                                         <div class="form-group">
-                                            <label for="stock">Stock</label>
-                                            <input type="text" class="form-control" name="stock" value="<?= $r->stock ?>" placeholder="Masukkan Stok">
-                                        </div>
-                                        <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="text" class="form-control" name="price" value="<?= $r->price ?>" placeholder="Masukkan Stok">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Description</label>
-                                            <input type="text" class="form-control" name="description" value="<?= $r->description ?>" placeholder="Masukkan Stok">
+                                            <input type="text" class="form-control" name="price" value="<?= $r->stock ?>" placeholder="Masukkan Stok">
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="simpan">Update</button>
                                     </form>

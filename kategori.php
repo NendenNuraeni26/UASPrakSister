@@ -6,7 +6,7 @@ include "Client.php";
 <html lang="en">
 
 <head>
-    <title>Toko Buku &mdash; Colorlib e-Commerce Template</title>
+    <title>Book Heaven &mdash; Colorlib e-Commerce Template</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -43,7 +43,7 @@ include "Client.php";
 
                         <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
                             <div class="site-logo">
-                                <a href="index.html" class="js-logo-clone">Toko Buku</a>
+                                <a href="index.html" class="js-logo-clone">Book Heaven</a>
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@ include "Client.php";
             ?>
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="card-title text-start mb-4">Selamat Datang Di Toko Buku</h3>
+                            <h3 class="card-title text-start mb-4">Selamat Datang Di Book Heaven</h3>
                             <img src="Assets/AddBook4.png" height="400">
                         </div>
 
