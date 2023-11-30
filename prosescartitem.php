@@ -7,10 +7,8 @@ include "Client.php";
 if ($_POST['aksi'] == 'tambah') {
     // Retrieve form data
     $data = [
-        'name' => $_POST['name'],
-        'imageUrl' => $_POST['imageUrl'],
-        'detail' => $_POST['detail'],
-        'staus' => $_POST['staus']
+        'product' => $_POST['product'],
+        'quantity' => $_POST['quantity'],
     ];
 
     // Perform the insert operation using your Client class
@@ -22,10 +20,8 @@ if ($_POST['aksi'] == 'tambah') {
     // Retrieve form data
     $data = [
         'id' => $_POST['id'],
-        'name' => $_POST['name'], // Assuming 'title' is the correct key, adjust if needed
-        'imageUrl' => $_POST['imageUrl'],
-        'detail' => $_POST['detail'],
-        'status' => $_POST['status']
+        'product' => $_POST['product'],
+        'quantity' => $_POST['quantity'],
     ];
     // Perform the update operation using your Client class
     // echo "mm";
