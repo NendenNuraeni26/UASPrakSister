@@ -42,7 +42,7 @@
                 <a href="index.php">Home</a>
             </li>
             <li class="has-children">
-                <a href="detailbarang.php">Detail Buku</a>
+                <a href="detailbarang.php?page=home">Detail Buku</a>
                 <ul class="dropdown">
                     <li><a href="detailbarang.php?page=home">Home Detail Buku</a></li>
                     <li><a href="detailbarang.php?page=tambah">Tambah Data</a></li>
@@ -50,7 +50,7 @@
                 </ul>
             </li>
             <li class="has-children">
-                <a href="produk.php">Produk</a>
+                <a href="produk.php?page=home">Produk</a>
                 <ul class="dropdown">
                     <li><a href="produk.php?page=home">Home Produk Buku</a></li>
                     <li><a href="produk.php?page=tambah">Tambah Data</a></li>
@@ -58,7 +58,7 @@
                 </ul>
             </li>
             <li class="has-children">
-                <a href="kategori.php">Kategori</a>
+                <a href="kategori.php?page=home">Kategori</a>
                 <ul class="dropdown">
                     <li><a href="kategori.php?page=home">Home Kategori Buku</a></li>
                     <li><a href="kategori.php?page=tambah">Tambah Data</a></li>

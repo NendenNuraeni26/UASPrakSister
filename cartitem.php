@@ -62,7 +62,7 @@ include "Client.php";
                                     <h5 class="card-title text-center">Tambah Data</h5>
                                     <form name="form" method="POST" action="prosescartitem.php">
                                         <div class="form-group">
-                                            <input type="hidden" name="aksi" value="tambahproduk" />
+                                            <input type="hidden" name="aksi" value="tambah" />
                                             <label for="product">Product</label>
                                             <input type="text" class="form-control" placeholder="Masukan Produk Buku" name="product" />
                                         </div>
