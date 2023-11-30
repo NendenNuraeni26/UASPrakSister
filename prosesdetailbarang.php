@@ -10,8 +10,9 @@ if ($_POST['aksi'] == 'tambah') {
         'name' => $_POST['name'],
         'imageUrl' => $_POST['imageUrl'],
         'detail' => $_POST['detail'],
-        'staus' => $_POST['staus']
+        'status' => $_POST['status']
     ];
+    // print_r($data);
 
     // Perform the insert operation using your Client class
     $abc->tambah_data_detail_produk($data);
@@ -30,7 +31,7 @@ if ($_POST['aksi'] == 'tambah') {
     // Perform the update operation using your Client class
     // echo "mm";
     // print_r($data);
-    $abc->ubah_data_produk($data);
+    $abc->ubah_data_detail_produk($data);
 
     // Redirect to the listing page after updating data
     header('location:detailbarang.php?page=daftar-data');
@@ -40,6 +41,6 @@ if ($_POST['aksi'] == 'tambah') {
         "id" => $_GET['id'],
     ];
     // print_r($data);
-    $abc->hapus_data_kategori($data);
-    header('location:kategori.php?page=daftar-data');
+    $abc->hapus_data_detail_produk($data);
+    header('location:detailbarang.php?page=daftar-data');
 }

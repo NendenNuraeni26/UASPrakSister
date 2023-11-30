@@ -58,7 +58,7 @@ class Client
     }
     public function tampil_semua_data_supplier()
     {
-        $client = curl_init($this->url . "supplier");
+        $client = curl_init($this->url . "suppliers");
         curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($client);
         curl_close($client);
@@ -67,7 +67,7 @@ class Client
 
         unset($data, $client, $response);
     }
-    public function tampil_semua_data_cart()
+    public function tampil_semua_data_cartitem()
     {
         $client = curl_init($this->url . "cartitems");
         curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
@@ -119,6 +119,31 @@ class Client
 
         unset($id, $client, $response, $data);
     }
+
+    public function tampil_data_supplier($id)
+    {
+        $id = $this->filter($id);
+        $client = curl_init($this->url . "suppliers/" . $id . "/?format=json");
+        curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($client);
+        curl_close($client);
+        $data = json_decode($response);
+        return $data;
+
+        unset($id, $client, $response, $data);
+    }
+    public function tampil_data_cartitem($id)
+    {
+        $id = $this->filter($id);
+        $client = curl_init($this->url . "cartitems/" . $id . "/?format=json");
+        curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($client);
+        curl_close($client);
+        $data = json_decode($response);
+        return $data;
+
+        unset($id, $client, $response, $data);
+    }
     // ===========================================================================================
 
     // ============================ TAMBAH DATA ==================================================
@@ -126,7 +151,6 @@ class Client
     {
         $date = date('Y-m-d H:i:s');
         $data = [
-            "id " => $data['id'],
             "title" => $data['title'],
             "imageUrl" => $data['imageUrl'],
             "description" => $data['description'],
@@ -144,10 +168,9 @@ class Client
     }
 
     public function tambah_data_detail_produk($data)
-    {
+    {   
         $date = date('Y-m-d H:i:s');
         $data = [
-            "id" => $data['id'],
             "name" => $data['name'],
             "imageUrl" => $data['imageUrl'],
             "detail" => $data['detail'],
@@ -157,7 +180,7 @@ class Client
         ];
 
         $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, $this->url . "products");
+        curl_setopt($c, CURLOPT_URL, $this->url . "detail-barangs/");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, $data);
@@ -169,17 +192,59 @@ class Client
     public function tambah_data_produk($data)
     {
         $data = [
-            "id" => $data['id'],
-            "category_id" => $data['category_id'],
-            "detail_barang_id" => $data['detail_barang_id'],
+            "category" => $data['category'],
+            "detail_barang" => $data['detail_barang'],
             "product_tag" => $data['product_tag'],
             "title" => $data['title'],
             "price" => $data['price'],
+            "stock" => $data['stock'],
             "description" => $data['description'],
+            "supplier" => $data['supplier'],
         ];
 
+        // print_r($data);
         $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, $this->url);
+        curl_setopt($c, CURLOPT_URL, $this->url. "products");
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_POST, true);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($c);
+        curl_close($c);
+        unset($data, $c, $response);
+    }
+
+    public function tambah_data_supplier($data)
+    {
+        $date = date('Y-m-d H:i:s');
+        $data = [
+            "name" => $data['name'],
+            "detail" => $data['detail'],
+            "status" => $data['status'],
+            "date_updated" => $date,
+            "date_created" => $date,
+        ];
+
+        // print_r($data);
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, $this->url. "suppliers");
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_POST, true);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($c);
+        curl_close($c);
+        unset($data, $c, $response);
+    }
+
+    public function tambah_data_cartitem($data)
+    {
+        $data = [
+            "product" => $data['product'],
+            "quantity" => $data['quantity'],
+        ];
+
+        // print_r($data);
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, $this->url. "cartitems");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, $data);
@@ -236,14 +301,50 @@ class Client
     {
         $data = [
             "id" => $data['id'],
-            "category_id" => $data['category_id'],
-            "detail_barang_id" => $data['detail_barang_id'],
+            "category" => $data['category'],
+            "detail_barang" => $data['detail_barang'],
             "product_tag" => $data['product_tag'],
             "title" => $data['title'],
             "price" => $data['price'],
+            "stock" => $data['stock'],
             "description" => $data['description'],
+            "supplier" => $data['supplier'],
         ];
         $c = curl_init($this->url . "products/" . $data['id'] . "/");
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($data));
+        $response = curl_exec($c);
+        curl_close($c);
+        unset($data, $c, $response);
+        // You can unset variables here or later as needed.
+    }
+    
+    public function ubah_data_supplier($data)
+    {
+        $data = [
+            "id" => $data['id'],
+            "name" => $data['name'],
+            "detail" => $data['detail'],
+            "status" => $data['status'],
+        ];
+        $c = curl_init($this->url . "suppliers/" . $data['id'] . "/");
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($data));
+        $response = curl_exec($c);
+        curl_close($c);
+        unset($data, $c, $response);
+        // You can unset variables here or later as needed.
+    }
+    public function ubah_data_cartitem($data)
+    {
+        $data = [
+            "id" => $data['id'],
+            "product" => $data['product'],
+            "quantity" => $data['quantity'],
+        ];
+        $c = curl_init($this->url . "cartitems/" . $data['id'] . "/");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -290,6 +391,32 @@ class Client
         $id = $this->filter($data['id']);
         $data = ['id' => $id];
         $c = curl_init($this->url . "products/" . $data['id'] . "/");
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($c, CURLOPT_POST, true);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($c);
+        curl_close($c);
+        unset($id, $data, $c, $response);
+    }
+    public function hapus_data_supplier($data)
+    {
+        $id = $this->filter($data['id']);
+        $data = ['id' => $id];
+        $c = curl_init($this->url . "supplier/" . $data['id'] . "/");
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($c, CURLOPT_POST, true);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($c);
+        curl_close($c);
+        unset($id, $data, $c, $response);
+    }
+    public function hapus_data_cartitem($data)
+    {
+        $id = $this->filter($data['id']);
+        $data = ['id' => $id];
+        $c = curl_init($this->url . "cartitems/" . $data['id'] . "/");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($c, CURLOPT_POST, true);

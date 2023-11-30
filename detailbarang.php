@@ -30,42 +30,6 @@ include "Client.php";
 
     <div class="site-wrap">
         <header class="site-navbar" role="banner">
-            <div class="site-navbar-top">
-                <div class="container">
-                    <div class="row align-items-center">
-
-                        <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-                            <form action="" class="site-block-top-search">
-                                <span class="icon icon-search2"></span>
-                                <input type="text" class="form-control border-0" placeholder="Search">
-                            </form>
-                        </div>
-
-                        <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
-                            <div class="site-logo">
-                                <a href="index.html" class="js-logo-clone">Toko Buku</a>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-4 order-3 order-md-3 text-right">
-                            <div class="site-top-icons">
-                                <ul>
-                                    <li><a href="#"><span class="icon icon-person"></span></a></li>
-                                    <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
-                                    <li>
-                                        <a href="cart.html" class="site-cart">
-                                            <span class="icon icon-shopping_cart"></span>
-                                            <span class="count">2</span>
-                                        </a>
-                                    </li>
-                                    <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
             <?php
             include "Layout/navbar.php";
             ?>
@@ -74,7 +38,7 @@ include "Client.php";
         <div class="bg-light py-3">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Contact</strong></div>
+                    <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Contact</strong></div>
                 </div>
             </div>
         </div>
@@ -96,7 +60,7 @@ include "Client.php";
                                     <h5 class="card-title text-center">Tambah Data</h5>
                                     <form name="form" method="POST" action="prosesdetailbarang.php">
                                         <div class="form-group">
-                                            <input type="hidden" name="aksi" value="tambahdetailbarang" />
+                                            <input type="hidden" name="aksi" value="tambah" />
                                             <label for="name">Name</label>
                                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama Buku">
                                         </div>
@@ -121,7 +85,7 @@ include "Client.php";
 
                 <?php elseif ($_GET['page'] == 'ubah') :
                     $id = $_GET['id'];
-                    $r = $abc->tampil_semua_data_detail_barang($id);
+                    $r = $abc->tampil_data_detail_produk($id);
                 ?>
                     <div class="row justify-content-center">
                         <div class="col-md-6">
@@ -145,7 +109,7 @@ include "Client.php";
                                         </div>
                                         <div class="form-group">
                                             <label for="detail">Detail</label>
-                                            <input type="text" class="form-control" name="detail" placeholder="Masukan Detail Barang ">
+                                            <input type="text" class="form-control" name="detail" value="<?= $r->detail ?>" placeholder="Masukan Detail Barang ">
                                         </div>
                                         <div class="form-group">
                                             <label for="status">Status</label>
