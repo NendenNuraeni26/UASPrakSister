@@ -37,5 +37,5 @@ if ($_POST['aksi'] == 'tambah') {
     ];
     // print_r($data);
     $abc->hapus_data_cartitem($data);
-    header('location:cartitem.php?page=daftar-data');
+    // header('location:cartitem.php?page=daftar-data');
 }

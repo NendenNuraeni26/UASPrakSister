@@ -65,14 +65,29 @@ include "Client.php";
                                 <div class="card-body">
                                     <h5 class="card-title text-center">Tambah Data</h5>
                                     <form name="form" method="POST" action="prosesproduk.php">
+                                        <?php
+                                        $categories = $abc->tampil_semua_data_categories();
+                                        ?>
+
                                         <div class="form-group">
                                             <input type="hidden" name="aksi" value="tambah" />
                                             <label for="category">Category</label>
-                                            <input type="text" class="form-control" placeholder="Masukan Kategori Buku" name="category" />
+                                            <select class="form-control" name="category">
+                                                <?php foreach ($categories as $category) : ?>
+                                                    <option value="<?= $category->id; ?>"><?= $category->title; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
-                                        <div class="form-group">
+                                        <?php
+                                        $detail_barangs = $abc->tampil_semua_data_detail_barang();
+                                        ?>
+                                       <div class="form-group">
                                             <label for="detail_barang">Detail Barang</label>
-                                            <input type="text" class="form-control" placeholder="Masukan Detail Buku" name="detail_barang" />
+                                            <select class="form-control" name="detail_barang">
+                                                <?php foreach ($detail_barangs as $detailbarang) : ?>
+                                                    <option value="<?= $detailbarang->id; ?>"><?= $detailbarang->name; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="product_tag">Product Tag</label>
@@ -94,9 +109,16 @@ include "Client.php";
                                             <label for="description">Deskripsi</label>
                                             <input type="text" class="form-control" placeholder="Masukan Deskripsi Buku" name="description" />
                                         </div>
-                                        <div class="form-group">
-                                            <label for="supplier">Supplier</label>
-                                            <input type="text" class="form-control" placeholder="Masukan Supplier Buku" name="supplier" />
+                                        <?php
+                                        $suppliers = $abc->tampil_semua_data_supplier();
+                                        ?>
+                                       <div class="form-group">
+                                            <label for="supplier">Sypplier</label>
+                                            <select class="form-control" name="supplier">
+                                                <?php foreach ($suppliers as $supplier) : ?>
+                                                    <option value="<?php echo $supplier->id; ?>"><?php echo $supplier->name; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="simpan">Submit</button>
                                     </form>
@@ -122,6 +144,7 @@ include "Client.php";
                                             <label for="id">Id Barang</label>
                                             <input type="text" class="form-control" name="id" value="<?= $r->id ?>" readonly placeholder="Masukkan Id Barang">
                                         </div>
+                                        
                                         <div class="form-group">
                                             <label for="category">Category</label>
                                             <input type="text" class="form-control" name="category" value="<?= $r->category ?>" placeholder="Masukkan Kategori Barang">
@@ -131,8 +154,8 @@ include "Client.php";
                                             <input type="text" class="form-control" name="detail_barang" value="<?= $r->detail_barang ?>" placeholder="Masukan Detail Barang">
                                         </div>
                                         <div class="form-group">
-                                            <label for="price">Price</label>
-                                            <input type="text" class="form-control" name="price" value="<?= $r->price ?>" placeholder="Masukkan Judul">
+                                            <label for="product_tag">product_tag</label>
+                                            <input type="text" class="form-control" name="product_tag" value="<?= $r->product_tag ?>" placeholder="Masukkan Judul">
                                         </div>
                                         <div class="form-group">
                                             <label for="title">Title</label>
@@ -140,7 +163,15 @@ include "Client.php";
                                         </div>
                                         <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="text" class="form-control" name="price" value="<?= $r->stock ?>" placeholder="Masukkan Stok">
+                                            <input type="text" class="form-control" name="price" value="<?= $r->price ?>" placeholder="Masukkan Judul">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="stock">Stock</label>
+                                            <input type="text" class="form-control" name="stock" value="<?= $r->stock ?>" placeholder="Masukkan Stok">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Deskription</label>
+                                            <input type="text" class="form-control" name="description" value="<?= $r->description ?>" placeholder="Masukkan Stok">
                                         </div>
                                         <div class="form-group">
                                             <label for="supplier">Supplier</label>
@@ -181,13 +212,14 @@ include "Client.php";
                                     <?php
                                     $no = 1;
                                     $data_array = $abc->tampil_semua_data_produk();
+                                    // print_r($data_array);
                                     foreach ($data_array as $r) :
                                     ?>
                                         <tr>
                                             <td><?= $no ?></td>
                                             <td><?= $r->id ?></td>
-                                            <td><?= $r->detail_barang ?></td>
                                             <td><?= $r->category ?></td>
+                                            <td><?= $r->detail_barang ?></td>
                                             <td><?= $r->supplier ?></td>
                                             <td><?= $r->product_tag ?></td>
                                             <td><?= $r->title ?></td>

@@ -109,7 +109,7 @@ include "Client.php";
                                         </div>
                                         <div class="form-group">
                                             <label for="detail">Detail</label>
-                                            <input type="text" class="form-control" name="detail" placeholder="Masukan Detail Barang ">
+                                            <input type="text" class="form-control" name="detail" value="<?= $r->detail ?>" placeholder="Masukan Detail Barang ">
                                         </div>
                                         <div class="form-group">
                                             <label for="status">Status</label>

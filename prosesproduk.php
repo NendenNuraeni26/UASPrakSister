@@ -46,7 +46,7 @@ if ($_POST['aksi'] == 'tambah') {
 } else if ($_GET['aksi'] == 'hapus') {
     // echo "a";
     $data = [
-        "id" => $_GET['id_kategori'],
+        "id" => $_GET['id'],
     ];
     // print_r($data);
     $abc->hapus_data_produk($data);

@@ -61,14 +61,21 @@ include "Client.php";
                                 <div class="card-body">
                                     <h5 class="card-title text-center">Tambah Data</h5>
                                     <form name="form" method="POST" action="prosescartitem.php">
+                                        <?php
+                                        $produks = $abc->tampil_semua_data_produk();
+                                        ?>
                                         <div class="form-group">
+                                            <label for="product">Sypplier</label>
                                             <input type="hidden" name="aksi" value="tambah" />
-                                            <label for="product">Product</label>
-                                            <input type="text" class="form-control" placeholder="Masukan Produk Buku" name="product" />
+                                            <select class="form-control" name="product">
+                                                <?php foreach ($produks as $product) : ?>
+                                                    <option value="<?php echo $product->id; ?>"><?php echo $product->id; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="quntity">quntity</label>
-                                            <input type="text" class="form-control" placeholder="Masukan Quantity Buku" name="quntity" />
+                                            <label for="quantity">quntity</label>
+                                            <input type="text" class="form-control" placeholder="Masukan Quantity Buku" name="quantity" />
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="simpan">Submit</button>
                                     </form>

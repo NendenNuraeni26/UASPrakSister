@@ -1,7 +1,7 @@
 <?php
 error_reporting(1);
 
-$url = 'http://asrulmaliy369.pythonanywhere.com/api/';
+$url = 'http://127.0.0.1:8000/api/';
 class Client
 {
     private $url;
@@ -204,7 +204,7 @@ class Client
 
         // print_r($data);
         $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, $this->url. "products");
+        curl_setopt($c, CURLOPT_URL, $this->url . "products/create");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, $data);
@@ -237,14 +237,16 @@ class Client
 
     public function tambah_data_cartitem($data)
     {
+        $date = date('Y-m-d H:i:s');
         $data = [
             "product" => $data['product'],
             "quantity" => $data['quantity'],
+            "date_added" => $date,
         ];
 
         // print_r($data);
         $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, $this->url. "cartitems");
+        curl_setopt($c, CURLOPT_URL, $this->url. "cartitems/create");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, $data);
@@ -403,7 +405,7 @@ class Client
     {
         $id = $this->filter($data['id']);
         $data = ['id' => $id];
-        $c = curl_init($this->url . "supplier/" . $data['id'] . "/");
+        $c = curl_init($this->url . "suppliers/" . $data['id'] . "/");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($c, CURLOPT_POST, true);
@@ -416,6 +418,8 @@ class Client
     {
         $id = $this->filter($data['id']);
         $data = ['id' => $id];
+        // echo "p";
+        // print_r($data);
         $c = curl_init($this->url . "cartitems/" . $data['id'] . "/");
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'DELETE');
