@@ -1,7 +1,8 @@
 <?php
 error_reporting(1);
 
-$url = 'http://127.0.0.1:8000/api/';
+// $url = 'http://127.0.0.1:8000/api/';
+$url = 'http://asrulmaliy369.pythonanywhere.com/api/';
 class Client
 {
     private $url;
@@ -240,6 +241,7 @@ class Client
         $date = date('Y-m-d H:i:s');
         $data = [
             "product" => $data['product'],
+            "user" => $data['user'],
             "quantity" => $data['quantity'],
             "date_added" => $date,
         ];
@@ -343,6 +345,7 @@ class Client
     {
         $data = [
             "id" => $data['id'],
+            "user" => $data['user'],
             "product" => $data['product'],
             "quantity" => $data['quantity'],
         ];

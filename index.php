@@ -1,3 +1,33 @@
+<?php
+session_start();
+
+require_once('ClientLogin.php');
+// Periksa apakah token ada di session
+if (!isset($_SESSION['token'])) {
+    header('Location: signup.php'); // Redirect ke halaman login jika tidak ada token
+    exit();
+}
+
+// Tombol logout ditekan
+if (isset($_POST['logout'])) {
+    // Hapus sesi (session) dan redirect ke halaman login
+    session_unset();
+    session_destroy();
+    header('Location: signup.php');
+    exit();
+}
+
+$token = $_SESSION['token'];
+$response = $client->testToken(['token' => $token]);
+$userData = json_decode($response, true);
+// echo $response;
+if (isset($userData['user']['is_superuser']) && $userData['user']['is_superuser'] == true) {
+    // Redirect to admin.php for superusers
+    // echo "hi";
+    header("Location: admin.php?token" . $_GET['token']);
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,177 +56,117 @@
 
     <div class="site-wrap">
         <header class="site-navbar" role="banner">
-            <?php
-            include "Layout/navbar.php";
-            ?>
+            <div class="site-navbar-top">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+                            <form action="" class="site-block-top-search">
+                                <span class="icon icon-search2"></span>
+                                <input type="text" class="form-control border-0" placeholder="Search">
+                            </form>
+                        </div>
+
+                        <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+                            <div class="site-logo">
+                                <a href="index.php?token=" class="js-logo-clone">Toko Buku</a>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+                            <div class="site-top-icons">
+                                <ul>
+                                    <li><a href="#"><span class="icon icon-person"></span></a></li>
+                                    <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
+                                    <li>
+                                        <a href="indexcartitem.php?page=daftar-data" class="site-cart">
+                                            <span class="icon icon-shopping_cart"></span>
+                                            <span class="count">2</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <form method="post">
+                                            <button type="submit" name="logout"><span class="icon icon-power">Logout</span></button>
+                                        </form>
+                                    </li>
+                                    <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="site-navigation text-right text-md-center" role="navigation">
+                <div class="container">
+                    <ul class="site-menu js-clone-nav d-none d-md-block">
+                        <li>
+                            <a href="index.php">Home</a>
+                        </li>
+                        <li class="has-children">
+                            <a href="indexcartitem.php?page=home">Cart Item</a>
+                            <ul class="dropdown">
+                                <li><a href="indexcartitem.php?page=home">Home Cart Item</a></li>
+                                <li><a href="indexcartitem.php?page=tambah">Tambah Data</a></li>
+                                <li><a href="indexcartitem.php?page=daftar-data">Lihat Data</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="index.php"></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </header>
 
-        <!-- <div class="site-blocks-cover" style="background-image: url(Assets/AddBook.png);" data-aos="fade"> -->
-        <div class="site-blocks-cover" style="background-image: url(images/back_buku.jpg);" data-aos="fade">
-            <div class="container">
-                <div class="row align-items-start align-items-md-center justify-content-end">
-                    <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
-                        <h1 class="mb-2">Finding Your Perfect Book</h1>
-                        <div class="intro-text text-center text-md-left">
-                            <p class="mb-4">Dive into the immersive world of literature with "Book Explorer," an innovative guide that allows users to embark on a captivating journey through a vast collection of books. This interactive platform provides a seamless experience for book enthusiasts to explore diverse genres, discover new releases, and delve into the intricate details of each literary masterpiece. </p>
-                            <p>
-                                <a href="#" class="btn btn-sm btn-primary">Shop Now</a>
-                            </p>
+        
+        <?php require_once('ClientNews.php');
+        // print_r($news);
+        ?>
+
+        <div class="container mt-5">
+            <?php foreach ($news as $article) : ?>
+                <div class="card mb-3">
+                    <img src="<?= $article->image_url; ?>" class="card-img-top" alt="<?= $article->title; ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $article->title; ?></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><?= $article->subtitle; ?></h6>
+                        <p class="card-text"><?= substr($article->body, 0, 200) . '...'; ?></p>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#articleModal<?= $article->id; ?>">
+                            Read More
+                        </button>
+                        <p class="card-text"><small class="text-muted">Author: <?= $article->author; ?></small></p>
+                        <img src="<?= $article->author_image_url; ?>" alt="Author Image" class="rounded-circle" width="30">
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Views: <?= $article->views; ?> | Date Created: <?= $article->date_created; ?></small>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="articleModal<?= $article->id; ?>" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel<?= $article->id; ?>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="articleModalLabel<?= $article->id; ?>"><?= $article->title; ?></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="<?= $article->image_url; ?>" class="img-fluid" alt="<?= $article->title; ?>">
+                                <p><?= $article->body; ?></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
-        <div class="site-section site-section-sm site-blocks-1">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="">
-                        <div class="icon mr-4 align-self-start">
-                            <span class="icon-book"></span>
-                        </div>
-                        <div class="text">
-                            <h2 class="text-uppercase">Kategori Book</h2>
-                            <p>Explore an array of thoughtfully curated book categories that cater to various interests and preferences. From classic literature and contemporary fiction to non-fiction and niche genres, "Book Explorer" provides a comprehensive selection to suit every taste.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="icon mr-4 align-self-start">
-                            <span class="icon-share"></span>
-                        </div>
-                        <div class="text">
-                            <h2 class="text-uppercase">Share</h2>
-                            <p>Share your favorite finds with friends and fellow book enthusiasts through seamless social media integration. Discuss books, exchange recommendations, and connect with like-minded readers within the "Book Explorer" community.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="icon mr-4 align-self-start">
-                            <span class="icon-help"></span>
-                        </div>
-                        <div class="text">
-                            <h2 class="text-uppercase">Customer Support</h2>
-                            <p>For further assistance, feel free to reach out to Asrul. We are ready to assist and provide the best solutions for your needs. Please contact Asrul through the provided contact information below. Thank you!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="site-section site-blocks-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
-                        <a class="block-2-item" href="#">
-                            <figure class="image">
-                                <img src="Assets/ganjilgenap.jpg" alt="" class="img-fluid">
-                            </figure>
-                            <div class="text">
-                                <span class="text-uppercase">Collections</span>
-                                <h3>Popular Book</h3>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
-                        <a class="block-2-item" href="#">
-                            <figure class="image">
-                                <img src="Assets/mariposa2.jpg" alt="" class="img-fluid">
-                            </figure>
-                            <div class="text">
-                                <span class="text-uppercase">Collections</span>
-                                <h3>Trending Book</h3>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
-                        <a class="block-2-item" href="#">
-                            <figure class="image">
-                                <img src="Assets/pulang.jpeg" alt="" class="img-fluid">
-                            </figure>
-                            <div class="text">
-                                <span class="text-uppercase">Collections</span>
-                                <h3>Bestseller Book</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="site-section block-3 site-blocks-2 bg-light">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-7 site-section-heading text-center pt-4">
-                        <h2>Catalog Book</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="nonloop-block-3 owl-carousel">
-                            <div class="item">
-                                <div class="block-4 text-center">
-                                    <figure class="block-4-image">
-                                        <img src="Assets/Tereliye.jpg" alt="Image placeholder" class="img-fluid">
-                                    </figure>
-                                    <div class="block-4-text p-4">
-                                        <h3><a href="#">Fantasi Book</a></h3>
-                                        <p class="mb-0">Finding perfect Fantasi Book</p>
-                                        <p class="text-primary font-weight-bold">Author Tereliye</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="block-4 text-center">
-                                    <figure class="block-4-image">
-                                        <img src="Assets/Romance.jpg" alt="Image placeholder" class="img-fluid">
-                                    </figure>
-                                    <div class="block-4-text p-4">
-                                        <h3><a href="#">Romance Book</a></h3>
-                                        <p class="mb-0">Finding perfect Romace Book</p>
-                                        <p class="text-primary font-weight-bold">Author Nenden Nuraeni</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="block-4 text-center">
-                                    <figure class="block-4-image">
-                                        <img src="Assets/horor.jpeg" alt="Image placeholder" class="img-fluid">
-                                    </figure>
-                                    <div class="block-4-text p-4">
-                                        <h3><a href="#">Horor Book</a></h3>
-                                        <p class="mb-0">Finding perfect Horor Book</p>
-                                        <p class="text-primary font-weight-bold">Author Asrul</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="block-4 text-center">
-                                    <figure class="block-4-image">
-                                        <img src="Assets/islam.png" alt="Image placeholder" class="img-fluid">
-                                    </figure>
-                                    <div class="block-4-text p-4">
-                                        <h3><a href="#">Islamic Book</a></h3>
-                                        <p class="mb-0">Finding perfect products</p>
-                                        <p class="text-primary font-weight-bold">Athor Intan</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="block-4 text-center">
-                                    <figure class="block-4-image">
-                                        <img src="Assets/islam2.jpeg" alt="Image placeholder" class="img-fluid">
-                                    </figure>
-                                    <div class="block-4-text p-4">
-                                        <h3><a href="#">Islamic 2 Books</a></h3>
-                                        <p class="mb-0">Finding perfect products</p>
-                                        <p class="text-primary font-weight-bold">Athor Raniah</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
 

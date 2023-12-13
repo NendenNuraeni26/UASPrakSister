@@ -1,5 +1,24 @@
 <?php
 include "Client.php";
+require_once('ClientLogin.php');
+session_start();
+if (!isset($_SESSION['token'])) {
+    header('Location: signup.php'); // Redirect ke halaman login jika tidak ada token
+    exit();
+}
+
+// Tombol logout ditekan
+if (isset($_POST['logout'])) {
+    // Hapus sesi (session) dan redirect ke halaman login
+    session_unset();
+    session_destroy();
+    header('Location: signup.php');
+    exit();
+}
+$token = $_SESSION['token'];
+
+$response = $client->testToken(['token' => $token]);
+$userData = json_decode($response, true);
 ?>
 
 <!DOCTYPE html>
@@ -30,9 +49,70 @@ include "Client.php";
 
     <div class="site-wrap">
         <header class="site-navbar" role="banner">
-            <?php
-            include "Layout/navbar.php";
-            ?>
+            <div class="site-navbar-top">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+                            <form action="" class="site-block-top-search">
+                                <span class="icon icon-search2"></span>
+                                <input type="text" class="form-control border-0" placeholder="Search">
+                            </form>
+                        </div>
+
+                        <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+                            <div class="site-logo">
+                                <a href="index.php" class="js-logo-clone">Toko Buku</a>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+                            <div class="site-top-icons">
+                                <ul class="site-menu js-clone-nav d-none d-md-block">
+
+                                    <ul>
+                                        <li><a href="#"><span class="icon icon-person"></span></a></li>
+                                        <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
+                                        <li>
+                                            <a href="indexcartitem.php?page=daftar-data" class="site-cart">
+                                                <span class="icon icon-shopping_cart"></span>
+                                                <span class="count">2</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form method="post">
+                                                <button type="submit" name="logout"><span class="icon icon-power">Logout</span></button>
+                                            </form>
+                                        </li>
+                                        <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                                    </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <nav class="site-navigation text-right text-md-center" role="navigation">
+                <div class="container">
+                    <ul class="site-menu js-clone-nav d-none d-md-block">
+
+                        <li>
+                            <a href="index.php">Home</a>
+                        </li>
+
+                        <li class="has-children">
+                            <a href="indexcartitem.php?page=home">Cart Item</a>
+                            <ul class="dropdown">
+                                <li><a href="indexcartitem.php?page=home">Home Cart Item</a></li>
+                                <li><a href="indexcartitem.php?page=tambah">Tambah Data</a></li>
+                                <li><a href="indexcartitem.php?page=daftar-data">Lihat Data</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
         </header>
 
         <div class="bg-light py-3">
@@ -60,13 +140,14 @@ include "Client.php";
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">Tambah Data</h5>
-                                    <form name="form" method="POST" action="prosescartitem.php">
+                                    <form name="form" method="POST" action="prosesindexcartitem.php">
                                         <?php
                                         $produks = $abc->tampil_semua_data_produk();
                                         ?>
                                         <div class="form-group">
-                                            <label for="product">Produk</label>
+                                            <label for="product">Product</label>
                                             <input type="hidden" name="aksi" value="tambah" />
+                                            <input type="text" class="form-control" name="user" value="<?= $userData['user']['id'] ?>" readonly />
                                             <select class="form-control" name="product">
                                                 <?php foreach ($produks as $product) : ?>
                                                     <option value="<?php echo $product->id; ?>"><?php echo $product->title; ?></option>
@@ -94,12 +175,13 @@ include "Client.php";
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">Ubah Data</h5>
-                                    <form name="form" method="post" action="prosescartitem.php">
+                                    <form name="form" method="post" action="prosesindexcartitem.php">
                                         <div class="form-group">
                                             <input type="hidden" name="aksi" value="ubah" />
                                             <input type="hidden" name="id" value="<?= $r->id ?>" />
                                             <label for="id">Id Barang</label>
                                             <input type="text" class="form-control" name="id" value="<?= $r->id ?>" readonly placeholder="Masukkan Id Barang">
+                                            <input type="text" class="form-control" name="user" value="<?= $r->user ?>" readonly />
                                         </div>
                                         <div class="form-group">
                                             <label for="product">Detail Barang</label>
@@ -129,6 +211,7 @@ include "Client.php";
                                     <tr>
                                         <th>No</th>
                                         <th>ID Cart Item</th>
+                                        <th>User</th>
                                         <th>Produk</th>
                                         <th>Quantity</th>
                                         <th>Aksi</th>
@@ -139,18 +222,24 @@ include "Client.php";
                                     $no = 1;
                                     $data_array = $abc->tampil_semua_data_cartitem();
                                     foreach ($data_array as $r) :
+                                        if ($r->user == $userData['user']['id']) :
                                     ?>
-                                        <tr>
-                                            <td><?= $no ?></td>
-                                            <td><?= $r->id ?></td>
-                                            <td><?= $r->product ?></td>
-                                            <td><?= $r->quantity ?></td>
-                                            <td>
-                                                <a href="?page=ubah&id=<?= $r->id ?>" class="btn btn-primary btn-sm mr-2">Ubah</a>
-                                                <a href="prosescartitem.php?aksi=hapus&id=<?= $r->id ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda ingin menghapus data ini?')">Hapus</a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                            <tr>
+                                                <td><?= $no ?></td>
+                                                <td><?= $r->id ?></td>
+                                                <td><?= $r->user ?></td>
+                                                <td><?= $r->product ?></td>
+                                                <td><?= $r->quantity ?></td>
+                                                <td>
+                                                    <a href="?page=ubah&id=<?= $r->id ?>" class="btn btn-primary btn-sm mr-2">Ubah</a>
+                                                    <a href="prosesindexcartitem.php?aksi=hapus&id=<?= $r->id ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda ingin menghapus data ini?')">Hapus</a>
+                                                </td>
+                                            </tr>
+                                    <?php
+                                        endif;
+                                    endforeach;
+                                    ?>
+
                                 </tbody>
                             </table>
                         </div>

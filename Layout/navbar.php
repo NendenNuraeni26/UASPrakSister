@@ -1,3 +1,5 @@
+
+
 <div class="site-navbar-top">
     <div class="container">
         <div class="row align-items-center">
@@ -11,7 +13,7 @@
 
             <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
                 <div class="site-logo">
-                    <a href="index.php" class="js-logo-clone">Toko Buku</a>
+                    <a href="admin.php" class="js-logo-clone">Toko Buku</a>
                 </div>
             </div>
 
@@ -26,6 +28,11 @@
                                 <span class="count">2</span>
                             </a>
                         </li>
+                        <li>
+                            <form method="post">
+                                <button type="submit" name="logout"><span class="icon icon-power">Logout</span></button>
+                            </form>
+                        </li>
                         <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
                     </ul>
                 </div>
@@ -39,7 +46,7 @@
     <div class="container">
         <ul class="site-menu js-clone-nav d-none d-md-block">
             <li>
-                <a href="index.php">Home</a>
+                <a href="admin.php">Home</a>
             </li>
             <li class="has-children">
                 <a href="detailbarang.php?page=home">Detail Buku</a>
@@ -81,6 +88,7 @@
                     <li><a href="cartitem.php?page=daftar-data">Lihat Data</a></li>
                 </ul>
             </li>
+
         </ul>
     </div>
 </nav>

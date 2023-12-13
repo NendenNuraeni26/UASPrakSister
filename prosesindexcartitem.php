@@ -16,7 +16,7 @@ if ($_POST['aksi'] == 'tambah') {
     $abc->tambah_data_cartitem($data);
 
     // Redirect to the listing page after adding data
-    header('location:cartitem.php?page=daftar-data');
+    header('location:indexcartitem.php?page=daftar-data');
 } elseif ($_POST['aksi'] == 'ubah') {
     // Retrieve form data
     $data = [
@@ -31,7 +31,7 @@ if ($_POST['aksi'] == 'tambah') {
     $abc->ubah_data_cartitem($data);
 
     // Redirect to the listing page after updating data
-    header('location:cartitem.php?page=daftar-data');
+    header('location:indexcartitem.php?page=daftar-data');
 } else if ($_GET['aksi'] == 'hapus') {
     // echo "a";
     $data = [
@@ -39,5 +39,5 @@ if ($_POST['aksi'] == 'tambah') {
     ];
     // print_r($data);
     $abc->hapus_data_cartitem($data);
-    // header('location:cartitem.php?page=daftar-data');
+    header('location:indexcartitem.php?page=daftar-data');
 }
